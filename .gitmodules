@@ -1,0 +1,7 @@
+[submodule "submodules/draco"]
+	path = submodules/draco
+	url = https://github.com/google/draco
+	branch = main
+[submodule "submodules/emsdk"]
+	path = submodules/emsdk
+	url = https://github.com/emscripten-core/emsdk.git
