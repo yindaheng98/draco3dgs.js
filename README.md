@@ -25,6 +25,14 @@ make
 cd ../
 ```
 
+Link WASM
+
+```sh
+mkdir -p draco3d
+cp build/draco_encoder.js build/draco_encoder.wasm draco3d
+cp build/draco_decoder.js build/draco_decoder.wasm draco3d
+```
+
 ## Build Executable
 
 ```sh
