@@ -16,7 +16,9 @@
 
 const fs = require('fs');
 const assert = require('assert');
-const draco3d = require('./draco3d');
+const createEncoderModule = require('./draco3d/draco3d/draco_encoder');
+const createDecoderModule = require('./draco3d/draco3d/draco_decoder');
+
 
 // Global decoder and encoder module variables.
 let decoderModule = null;
@@ -26,7 +28,7 @@ let encoderModule = null;
 // draco3d.createDecoderModule will return a promise to a funciton with a
 // module as a parameter when the module has been fully initialized.
 // Create and set the decoder module.
-draco3d.createDecoderModule({}).then(function(module) {
+createDecoderModule({}).then(function(module) {
   // This is reached when everything is ready, and you can call methods on
   // Module.
   decoderModule = module;
@@ -35,7 +37,7 @@ draco3d.createDecoderModule({}).then(function(module) {
 });
 
 // Create and set the encoder module.
-draco3d.createEncoderModule({}).then(function(module) {
+createEncoderModule({}).then(function(module) {
   // This is reached when everything is ready, and you can call methods on
   // Module.
   encoderModule = module;
