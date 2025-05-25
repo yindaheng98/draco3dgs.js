@@ -54,9 +54,39 @@ class DracoDecoder {
             const attribute = decoder.GetAttribute(dracoGeometry, attrId);
             const numComponents = attribute.num_components();
             const numValues = numPoints * numComponents;
-            const attributeData = new decoderModule.DracoFloat32Array();
-
-            decoder.GetAttributeFloatForAllPoints(dracoGeometry, attribute, attributeData);
+            let attributeData = null;
+            switch (dracoAttributes[attrName].type) {
+                case Float32Array:
+                    attributeData = new decoderModule.DracoFloat32Array();
+                    decoder.GetAttributeFloatForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                case Int8Array:
+                    attributeData = new decoderModule.DracoInt8Array();
+                    decoder.GetAttributeInt8ForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                case Int16Array:
+                    attributeData = new decoderModule.DracoInt16Array();
+                    decoder.GetAttributeInt16ForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                case Int32Array:
+                    attributeData = new decoderModule.DracoInt32Array();
+                    decoder.GetAttributeInt32ForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                case Uint8Array:
+                    attributeData = new decoderModule.DracoUInt8Array();
+                    decoder.GetAttributeUInt8ForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                case Uint16Array:
+                    attributeData = new decoderModule.DracoUInt16Array();
+                    decoder.GetAttributeUInt16ForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                case Uint32Array:
+                    attributeData = new decoderModule.DracoUInt32Array();
+                    decoder.GetAttributeUInt32ForAllPoints(dracoGeometry, attribute, attributeData);
+                    break;
+                default:
+                    throw new Error('Unsupported attribute type');
+            }
 
             assert(numValues === attributeData.size(), 'Wrong attribute size.');
             const array = new dracoAttributes[attrName].type(numValues);
