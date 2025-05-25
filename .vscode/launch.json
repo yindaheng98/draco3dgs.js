@@ -4,8 +4,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Javascript Debug",
+            "name": "draco_nodejs_example Debug",
             "program": "${workspaceFolder}/draco_nodejs_example.js",
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "example Debug",
+            "program": "${workspaceFolder}/example.js",
+        },
     ]
 }
