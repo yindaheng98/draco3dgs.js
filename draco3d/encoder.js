@@ -14,12 +14,15 @@ class DracoEncoder {
         return this.#encoderModule;
     }
 
-    async encode(numPoints, attributes, numFaces = 0, indices = null) {
+    async encode(geometry) {
+        const { numPoints, attributes, numFaces, indices } = geometry;
+        assert(numPoints > 0, 'Number of points must be greater than zero.');
+        assert(attributes && typeof attributes === 'object', 'Attributes must be an object.');
         const encoderModule = await this.#initialize();
 
         const encoder = new encoderModule.Encoder();
         let builder = null;
-        let geometry = null;
+        geometry = null;
         if (numFaces > 0) {
             builder = new encoderModule.MeshBuilder();
             geometry = new encoderModule.Mesh();

@@ -25,12 +25,7 @@ async function main() {
         const encoder = new DracoEncoder();
         encoder.SetAttributeQuantization('POSITION', 10);
         encoder.SetSpeedOptions(5, 5);
-        const encodedBuffer = await encoder.encode(
-            decodedData.numPoints,
-            decodedData.attributes,
-            decodedData.numFaces,
-            decodedData.indices,
-        );
+        const encodedBuffer = await encoder.encode(decodedData);
 
         console.log("Encoded size:", encodedBuffer.byteLength, "bytes");
 
