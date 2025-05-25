@@ -3,14 +3,15 @@ const createDecoderModule = require('./draco3d/draco_decoder');
 const dracoAttributes = require('./draco3d/attributes');
 
 class DracoDecoder {
+    #decoderModule;
     constructor() {
-        this.decoderModule = null;
+        this.#decoderModule = null;
     }
 
     async initialize() {
-        if (!this.decoderModule)
-            this.decoderModule = await createDecoderModule({});
-        return this.decoderModule;
+        if (!this.#decoderModule)
+            this.#decoderModule = await createDecoderModule({});
+        return this.#decoderModule;
     }
 
     async decode(buffer) {
