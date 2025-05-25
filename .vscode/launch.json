@@ -4,13 +4,17 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "draco_nodejs_example Debug",
-            "program": "${workspaceFolder}/draco_nodejs_example.js",
+            "name": "Typescript Debug",
+            "program": "${workspaceFolder}/example.ts",
+            "preLaunchTask": "npm:build",
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js"
+            ]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "example Debug",
+            "name": "Javascript Debug",
             "program": "${workspaceFolder}/example.js",
         },
     ]

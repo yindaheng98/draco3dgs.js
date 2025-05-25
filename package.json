@@ -7,6 +7,7 @@
     "draco3d/*"
   ],
   "scripts": {
+    "build": "tsc && node tools/copy_wasm.js dist",
     "test": "node example.js"
   },
   "keywords": [
@@ -20,5 +21,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/google/draco.git"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
   }
 }
