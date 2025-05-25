@@ -3,18 +3,19 @@ const createEncoderModule = require('./draco3d/draco_encoder');
 const dracoAttributes = require('./draco3d/attributes');
 
 class DracoEncoder {
+    #encoderModule;
     constructor() {
-        this.encoderModule = null;
+        this.#encoderModule = null;
     }
 
-    async initialize() {
-        if (!this.encoderModule)
-            this.encoderModule = await createEncoderModule({});
-        return this.encoderModule;
+    async #initialize() {
+        if (!this.#encoderModule)
+            this.#encoderModule = await createEncoderModule({});
+        return this.#encoderModule;
     }
 
     async encode(numPoints, attributes, numFaces = 0, indices = null) {
-        const encoderModule = await this.initialize();
+        const encoderModule = await this.#initialize();
 
         const encoder = new encoderModule.Encoder();
         let builder = null;
@@ -79,9 +80,7 @@ class DracoEncoder {
         }
 
         // Set encoding options
-        encoder.SetSpeedOptions(5, 5);
-        encoder.SetAttributeQuantization(encoderModule.POSITION, 10);
-        encoder.SetEncodingMethod(encoderModule.MESH_EDGEBREAKER_ENCODING);
+        this.#SetEncoder(encoder, encoderModule);
 
         // Encode
         const encodedData = new encoderModule.DracoInt8Array();
@@ -110,6 +109,29 @@ class DracoEncoder {
         encoderModule.destroy(geometry);
 
         return outputBuffer;
+    }
+
+    #SetEncodingMethod = null;
+    SetEncodingMethod(method) {
+        this.#SetEncodingMethod = (encoder, encoderModule) => encoder.SetEncodingMethod(encoderModule[method]);
+    }
+    #SetAttributeQuantization = {};
+    SetAttributeQuantization(att_name, quantization_bits) {
+        this.#SetAttributeQuantization[att_name] = (encoder, encoderModule) => encoder.SetAttributeQuantization(encoderModule[att_name], quantization_bits);
+    }
+    #SetSpeedOptions = null;
+    SetSpeedOptions(encoding_speed, decoding_speed) {
+        this.#SetSpeedOptions = (encoder, encoderModule) => encoder.SetSpeedOptions(encoding_speed, decoding_speed);
+    }
+    #SetTrackEncodedProperties = null;
+    SetTrackEncodedProperties(flag) {
+        this.#SetTrackEncodedProperties = (encoder, encoderModule) => encoder.SetTrackEncodedProperties(flag);
+    }
+    #SetEncoder(encoder, encoderModule) {
+        if (this.#SetEncodingMethod) this.#SetEncodingMethod(encoder, encoderModule);
+        for (const call of Object.values(this.#SetAttributeQuantization)) call(encoder, encoderModule);
+        if (this.#SetSpeedOptions) this.#SetSpeedOptions(encoder, encoderModule);
+        if (this.#SetTrackEncodedProperties) this.#SetTrackEncodedProperties(encoder, encoderModule);
     }
 }
 

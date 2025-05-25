@@ -18,6 +18,8 @@ async function main() {
 
         // Encode the data back
         const encoder = new DracoEncoder();
+        encoder.SetAttributeQuantization('POSITION', 10);
+        encoder.SetSpeedOptions(5, 5);
         const encodedBuffer = await encoder.encode(
             decodedData.numPoints,
             decodedData.attributes,
