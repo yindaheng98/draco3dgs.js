@@ -18,8 +18,8 @@ async function main() {
         console.log("Available attributes:", Object.keys(decodedData.attributes));
 
         // Save decoded data to PLY file
-        await writeply('./bunny_decoded.ply', decodedData);
-        console.log("Decoded data saved as bunny_decoded.ply");
+        await writeply('./bunny.ply', decodedData);
+        console.log("Decoded data saved as bunny.ply");
 
         // Encode the data back
         const encoder = new DracoEncoder();
@@ -35,8 +35,8 @@ async function main() {
         console.log("Encoded size:", encodedBuffer.byteLength, "bytes");
 
         // Write the encoded data to a file
-        await fs.promises.writeFile('./bunny_encoded.drc', Buffer.from(encodedBuffer));
-        console.log("Encoded file saved as bunny_encoded.drc");
+        await fs.promises.writeFile('./bunny.drc', Buffer.from(encodedBuffer));
+        console.log("Encoded file saved as bunny.drc");
 
     } catch (error) {
         console.error("Error:", error);

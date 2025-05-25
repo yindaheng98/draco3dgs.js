@@ -7,7 +7,7 @@
     "draco3d/*"
   ],
   "scripts": {
-    "test": "node draco_nodejs_example.js"
+    "test": "node example.js"
   },
   "keywords": [
     "geometry",
