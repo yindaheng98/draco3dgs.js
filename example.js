@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { DracoEncoder, DracoDecoder } = require('./draco3d');
+const writeply = require('./writeply');
 
 async function main() {
     try {
@@ -15,6 +16,10 @@ async function main() {
         console.log("Number of points:", decodedData.numPoints);
         console.log("Number of faces:", decodedData.numFaces);
         console.log("Available attributes:", Object.keys(decodedData.attributes));
+
+        // Save decoded data to PLY file
+        await writeply('./bunny_decoded.ply', decodedData);
+        console.log("Decoded data saved as bunny_decoded.ply");
 
         // Encode the data back
         const encoder = new DracoEncoder();
