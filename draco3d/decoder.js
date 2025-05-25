@@ -1,3 +1,4 @@
+const assert = require('assert');
 const createDecoderModule = require('./draco3d/draco_decoder');
 const dracoAttributes = require('./draco3d/attributes');
 
@@ -57,6 +58,7 @@ class DracoDecoder {
 
             decoder.GetAttributeFloatForAllPoints(dracoGeometry, attribute, attributeData);
 
+            assert(numValues === attributeData.size(), 'Wrong attribute size.');
             const array = new dracoAttributes[attrName].type(numValues);
             for (let i = 0; i < numValues; ++i) {
                 array[i] = attributeData.GetValue(i);
@@ -91,10 +93,10 @@ class DracoDecoder {
         decoderModule.destroy(dracoGeometry);
 
         return {
-            attributes,
-            indices,
             numPoints,
+            attributes,
             numFaces,
+            indices,
         };
     }
 }
