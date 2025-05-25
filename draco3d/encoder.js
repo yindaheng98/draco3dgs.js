@@ -117,6 +117,7 @@ class DracoEncoder {
     }
     #SetAttributeQuantization = {};
     SetAttributeQuantization(att_name, quantization_bits) {
+        assert(dracoAttributes[att_name], 'Attribute not supported: ' + att_name);
         this.#SetAttributeQuantization[att_name] = (encoder, encoderModule) => encoder.SetAttributeQuantization(encoderModule[att_name], quantization_bits);
     }
     #SetSpeedOptions = null;
