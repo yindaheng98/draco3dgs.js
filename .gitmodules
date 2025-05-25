@@ -1,6 +1,6 @@
 [submodule "submodules/draco"]
 	path = submodules/draco
-	url = https://github.com/google/draco
+	url = https://github.com/yindaheng98/draco3dgs
 	branch = main
 [submodule "submodules/emsdk"]
 	path = submodules/emsdk
