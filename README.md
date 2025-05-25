@@ -33,17 +33,6 @@ cp build/draco_encoder.js build/draco_encoder.wasm draco3d/draco3d
 cp build/draco_decoder.js build/draco_decoder.wasm draco3d/draco3d
 ```
 
-## Build Executable (Optional)
-
-```sh
-git submodule update --init --recursive
-mkdir -p build && cd build
-cmake ../submodules/draco
-cmake --build . --config Release --target draco_encoder
-cmake --build . --config Release --target draco_decoder
-cd ../
-```
-
 ## Test Codec
 
 ```sh
