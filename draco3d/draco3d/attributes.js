@@ -1,5 +1,5 @@
 // Attributes for the Draco 3D library
-const dracoAttributes = {
+module.exports = {
     POSITION: { name: 'POSITION', type: Float32Array, stride: 3 },
     NORMAL: { name: 'NORMAL', type: Float32Array, stride: 3 },
     COLOR: { name: 'COLOR', type: Float32Array, stride: 3 },
