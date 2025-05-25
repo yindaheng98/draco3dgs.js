@@ -1,6 +1,5 @@
 const fs = require('fs');
-const DracoEncoder = require('./draco3d/encoder');
-const DracoDecoder = require('./draco3d/decoder');
+const { DracoEncoder, DracoDecoder } = require('./draco3d');
 
 async function main() {
     try {
