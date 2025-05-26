@@ -24,8 +24,12 @@ async function main() {
         // Encode the data back
         const encoder = new DracoEncoder();
         encoder.SetAttributeQuantization('POSITION', 10);
-        encoder.SetSpeedOptions(5, 5);
-        encoder.SetAttributeQuantization('COLOR', 8);
+        encoder.SetSpeedOptions(10, 10);
+        encoder.SetAttributeQuantization('SCALE_3DGS', 6);
+        encoder.SetAttributeQuantization('ROTATION_3DGS', 6);
+        encoder.SetAttributeQuantization('OPACITY_3DGS', 4);
+        encoder.SetAttributeQuantization('FEATURE_DC_3DGS', 6);
+        encoder.SetAttributeQuantization('FEATURE_REST_3DGS', 4);
         const colorType = decoder.GetArrtibutesType().COLOR;
         if (!decodedData.attributes.COLOR && colorType && typeof colorType.from === 'function') {
             decodedData.attributes.COLOR = colorType.from(Array.from({ length: dracoAttributesInfo.COLOR.stride * decodedData.numPoints }, () => Math.floor(Math.random() * 255)));
