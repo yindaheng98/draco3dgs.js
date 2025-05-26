@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { DracoEncoder, DracoDecoder } from './draco3d';
+import { DracoEncoder, DracoDecoder, dracoAttributesInfo } from './draco3d';
 import writeply from './writeply';
 
 async function main(): Promise<void> {
@@ -25,6 +25,11 @@ async function main(): Promise<void> {
         const encoder: DracoEncoder = new DracoEncoder();
         encoder.SetAttributeQuantization('POSITION', 10);
         encoder.SetSpeedOptions(5, 5);
+        encoder.SetAttributeQuantization('COLOR', 8);
+        const colorType = decoder.types().COLOR;
+        if (!decodedData.attributes.COLOR && colorType && typeof colorType.from === 'function') {
+            decodedData.attributes.COLOR = colorType.from(Array.from({ length: dracoAttributesInfo.COLOR.stride * decodedData.numPoints }, () => Math.floor(Math.random() * 255)));
+        }
         const encodedBuffer: ArrayBuffer = await encoder.encode(decodedData);
 
         console.log("Encoded size:", encodedBuffer.byteLength, "bytes");

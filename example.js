@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { DracoEncoder, DracoDecoder } = require('./draco3d');
+const { DracoEncoder, DracoDecoder, dracoAttributesInfo } = require('./draco3d');
 const writeply = require('./writeply');
 
 async function main() {
@@ -25,6 +25,11 @@ async function main() {
         const encoder = new DracoEncoder();
         encoder.SetAttributeQuantization('POSITION', 10);
         encoder.SetSpeedOptions(5, 5);
+        encoder.SetAttributeQuantization('COLOR', 8);
+        const colorType = decoder.types().COLOR;
+        if (!decodedData.attributes.COLOR && colorType && typeof colorType.from === 'function') {
+            decodedData.attributes.COLOR = colorType.from(Array.from({ length: dracoAttributesInfo.COLOR.stride * decodedData.numPoints }, () => Math.floor(Math.random() * 255)));
+        }
         const encodedBuffer = await encoder.encode(decodedData);
 
         console.log("Encoded size:", encodedBuffer.byteLength, "bytes");

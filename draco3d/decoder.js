@@ -59,10 +59,7 @@ class DracoDecoder {
             const decoderAttr = decoderModule[attrName];
             const attrId = decoder.GetAttributeId(dracoGeometry, decoderAttr);
 
-            if (attrId < 0) {
-                attributes[attrName] = null;
-                continue;
-            };
+            if (attrId < 0) continue;
 
             const attribute = decoder.GetAttribute(dracoGeometry, attrId);
             const numComponents = attribute.num_components();

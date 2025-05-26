@@ -23,11 +23,11 @@ export interface DracoAttributeInfo {
 }
 
 export interface DracoAttributesInfo {
-    POSITION?: DracoAttributeInfo;
-    NORMAL?: DracoAttributeInfo;
-    COLOR?: DracoAttributeInfo;
-    TEX_COORD?: DracoAttributeInfo;
-    GENERIC?: DracoAttributeInfo;
+    POSITION: DracoAttributeInfo;
+    NORMAL: DracoAttributeInfo;
+    COLOR: DracoAttributeInfo;
+    TEX_COORD: DracoAttributeInfo;
+    GENERIC: DracoAttributeInfo;
 }
 
 const dracoAttributesInfo: DracoAttributesInfo;
