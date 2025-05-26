@@ -1,11 +1,19 @@
 const assert = require('assert');
 const createDecoderModule = require('./draco3d/draco_decoder');
-const dracoAttributes = require('./draco3d/attributes');
+const { dracoAttributesInfo } = require('./draco3d/attributes');
 
 class DracoDecoder {
     #decoderModule;
-    constructor() {
+    #attributeTypes;
+    constructor(attributeTypes = {}) {
         this.#decoderModule = null;
+        this.#attributeTypes = {};
+        for (const attrName of Object.keys(dracoAttributesInfo)) {
+            if (attributeTypes[attrName])
+                this.#attributeTypes[attrName] = attributeTypes[attrName];
+            else
+                this.#attributeTypes[attrName] = dracoAttributesInfo[attrName].defaultType;
+        }
     }
 
     async initialize() {
@@ -43,7 +51,7 @@ class DracoDecoder {
         // Extract attributes from the decoded geometry
         const numPoints = dracoGeometry.num_points();
         const attributes = {};
-        for (const attrName of Object.keys(dracoAttributes)) {
+        for (const attrName of Object.keys(this.#attributeTypes)) {
             const decoderAttr = decoderModule[attrName];
             const attrId = decoder.GetAttributeId(dracoGeometry, decoderAttr);
 
@@ -56,7 +64,7 @@ class DracoDecoder {
             const numComponents = attribute.num_components();
             const numValues = numPoints * numComponents;
             let attributeData = null;
-            switch (dracoAttributes[attrName].type) {
+            switch (this.#attributeTypes[attrName]) {
                 case Float32Array:
                     attributeData = new decoderModule.DracoFloat32Array();
                     decoder.GetAttributeFloatForAllPoints(dracoGeometry, attribute, attributeData);
@@ -90,7 +98,7 @@ class DracoDecoder {
             }
 
             assert(numValues === attributeData.size(), 'Wrong attribute size.');
-            const array = new dracoAttributes[attrName].type(numValues);
+            const array = new this.#attributeTypes[attrName](numValues);
             for (let i = 0; i < numValues; ++i) {
                 array[i] = attributeData.GetValue(i);
             }

@@ -1,19 +1,19 @@
-import { DracoAttributes } from './draco3d/attributes';
+import { DracoAttributes, DracoAttributesConstructor, DracoAttributesInfo, dracoAttributesInfo } from './draco3d/attributes';
 
-interface DecodedGeometry {
+export interface DecodedGeometry {
     numPoints: number;
     attributes: DracoAttributes;
     numFaces: number;
     indices: Uint32Array | null;
 }
 
-declare class DracoDecoder {
-    constructor();
+export class DracoDecoder {
+    constructor(attributeTypes?: DracoAttributesConstructor);
     decode(buffer: ArrayBuffer): Promise<DecodedGeometry>;
 }
 
-declare class DracoEncoder {
-    constructor();
+export class DracoEncoder {
+    constructor(attributeTypes?: DracoAttributesConstructor);
     encode(geometry: DecodedGeometry): Promise<ArrayBuffer>;
     SetEncodingMethod(method: string): void;
     SetAttributeQuantization(att_name: string, quantization_bits: number): void;
@@ -22,8 +22,6 @@ declare class DracoEncoder {
 }
 
 export {
-    DracoEncoder,
-    DracoDecoder,
     DracoAttributes,
-    DecodedGeometry,
+    dracoAttributesInfo,
 };

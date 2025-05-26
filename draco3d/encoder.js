@@ -1,11 +1,19 @@
 const assert = require('assert');
 const createEncoderModule = require('./draco3d/draco_encoder');
-const dracoAttributes = require('./draco3d/attributes');
+const { dracoAttributesInfo } = require('./draco3d/attributes');
 
 class DracoEncoder {
     #encoderModule;
-    constructor() {
+    #attributeTypes;
+    constructor(attributeTypes = {}) {
         this.#encoderModule = null;
+        this.#attributeTypes = {};
+        for (const attrName of Object.keys(dracoAttributesInfo)) {
+            if (attributeTypes[attrName])
+                this.#attributeTypes[attrName] = attributeTypes[attrName];
+            else
+                this.#attributeTypes[attrName] = dracoAttributesInfo[attrName].defaultType;
+        }
     }
 
     async #initialize() {
@@ -32,15 +40,15 @@ class DracoEncoder {
         }
 
         // Add attributes to mesh
-        for (const attrName of Object.keys(dracoAttributes)) {
+        for (const attrName of Object.keys(this.#attributeTypes)) {
             if (!attributes[attrName]) continue;
             const attributeData = attributes[attrName];
-            assert(attributeData instanceof dracoAttributes[attrName].type, 'Wrong attribute type.');
-            const stride = dracoAttributes[attrName].stride;
+            assert(attributeData instanceof this.#attributeTypes[attrName], 'Wrong attribute type.');
+            const stride = dracoAttributesInfo[attrName].stride;
             const numValues = numPoints * stride;
             assert(numValues === attributeData.length, 'Wrong attribute size.');
             const encoderAttr = encoderModule[attrName];
-            switch (dracoAttributes[attrName].type) {
+            switch (this.#attributeTypes[attrName]) {
                 case Float32Array:// this type has two different methods to add attributes
                     if (numFaces > 0) {
                         builder.AddFloatAttributeToMesh(geometry, encoderAttr, numPoints, stride, attributeData);
@@ -72,7 +80,7 @@ class DracoEncoder {
                     builder.AddUInt32Attribute(geometry, encoderAttr, numPoints, stride, attributeData);
                     break;
                 default:
-                    throw new Error('Unsupported attribute type: ' + dracoAttributes[attrName].type);
+                    throw new Error('Unsupported attribute type: ' + this.#attributeTypes[attrName]);
             }
         }
 
@@ -119,9 +127,9 @@ class DracoEncoder {
         this.#SetEncodingMethod = (encoder, encoderModule) => encoder.SetEncodingMethod(encoderModule[method]);
     }
     #SetAttributeQuantization = {};
-    SetAttributeQuantization(att_name, quantization_bits) {
-        assert(dracoAttributes[att_name], 'Attribute not supported: ' + att_name);
-        this.#SetAttributeQuantization[att_name] = (encoder, encoderModule) => encoder.SetAttributeQuantization(encoderModule[att_name], quantization_bits);
+    SetAttributeQuantization(attrName, quantization_bits) {
+        assert(this.#attributeTypes[attrName], 'Attribute not supported: ' + attrName);
+        this.#SetAttributeQuantization[attrName] = (encoder, encoderModule) => encoder.SetAttributeQuantization(encoderModule[attrName], quantization_bits);
     }
     #SetSpeedOptions = null;
     SetSpeedOptions(encoding_speed, decoding_speed) {
