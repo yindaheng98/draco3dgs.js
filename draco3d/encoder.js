@@ -33,15 +33,8 @@ class DracoEncoder {
         const encoderModule = await this.#initialize();
 
         const encoder = new encoderModule.Encoder();
-        let builder = null;
-        geometry = null;
-        if (numFaces > 0) {
-            builder = new encoderModule.MeshBuilder();
-            geometry = new encoderModule.Mesh();
-        } else {
-            builder = new encoderModule.PointCloudBuilder();
-            geometry = new encoderModule.PointCloud();
-        }
+        let builder = new encoderModule.MeshBuilder();
+        geometry = new encoderModule.Mesh();
 
         // Add attributes to mesh
         for (const attrName of Object.keys(this.#attributeTypes)) {
@@ -53,12 +46,8 @@ class DracoEncoder {
             assert(numValues === attributeData.length, 'Wrong attribute size.');
             const encoderAttr = encoderModule[attrName];
             switch (this.#attributeTypes[attrName]) {
-                case Float32Array:// this type has two different methods to add attributes
-                    if (numFaces > 0) {
-                        builder.AddFloatAttributeToMesh(geometry, encoderAttr, numPoints, stride, attributeData);
-                    } else {
-                        builder.AddFloatAttribute(geometry, encoderAttr, numPoints, stride, attributeData);
-                    }
+                case Float32Array:
+                    builder.AddFloatAttribute(geometry, encoderAttr, numPoints, stride, attributeData);
                     break;
                 case Int8Array:
                     builder.AddInt8Attribute(geometry, encoderAttr, numPoints, stride, attributeData);
@@ -66,12 +55,8 @@ class DracoEncoder {
                 case Int16Array:
                     builder.AddInt16Attribute(geometry, encoderAttr, numPoints, stride, attributeData);
                     break;
-                case Int32Array:// this type has two different methods to add attributes
-                    if (numFaces > 0) {
-                        builder.AddInt32AttributeToMesh(geometry, encoderAttr, numPoints, stride, attributeData);
-                    } else {
-                        builder.AddInt32Attribute(geometry, encoderAttr, numPoints, stride, attributeData);
-                    }
+                case Int32Array:
+                    builder.AddInt32Attribute(geometry, encoderAttr, numPoints, stride, attributeData);
                     break;
                 // The following types has only one method to add attributes
                 case Uint8Array:
@@ -92,6 +77,9 @@ class DracoEncoder {
         if (numFaces > 0) {
             assert(indices instanceof Uint32Array, 'Indices must be a Uint32Array');
             builder.AddFacesToMesh(geometry, numFaces, indices);
+        } else {
+            builder.AddFacesToMesh(geometry, 0, new Uint32Array()); // For point cloud, no faces
+            encoder.SetEncodingMethod('MESH_SEQUENTIAL_ENCODING');
         }
 
         // Set encoding options
@@ -99,12 +87,7 @@ class DracoEncoder {
 
         // Encode
         const encodedData = new encoderModule.DracoInt8Array();
-        let encodedLen = 0;
-        if (numFaces > 0) {
-            encodedLen = encoder.EncodeMeshToDracoBuffer(geometry, encodedData);
-        } else {
-            encodedLen = encoder.EncodePointCloudToDracoBuffer(geometry, encodedData);
-        }
+        let encodedLen = encoder.EncodeMeshToDracoBuffer(geometry, encodedData);
 
         if (encodedLen <= 0) {
             throw new Error('Encoding failed');

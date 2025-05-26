@@ -30,6 +30,7 @@ async function main() {
         if (!decodedData.attributes.COLOR && colorType && typeof colorType.from === 'function') {
             decodedData.attributes.COLOR = colorType.from(Array.from({ length: dracoAttributesInfo.COLOR.stride * decodedData.numPoints }, () => Math.floor(Math.random() * 255)));
         }
+        // decodedData.numFaces = 0;
         const encodedBuffer = await encoder.encode(decodedData);
 
         console.log("Encoded size:", encodedBuffer.byteLength, "bytes");

@@ -1,6 +1,6 @@
 {
   "name": "draco.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript Wrapper and Typescript type definition for Draco",
   "main": "draco3d/index.js",
   "types": "draco3d/index.d.ts",
