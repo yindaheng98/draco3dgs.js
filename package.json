@@ -1,5 +1,5 @@
 {
-  "name": "draco.js",
+  "name": "draco3dgs.js",
   "version": "1.0.1",
   "description": "JavaScript Wrapper and Typescript type definition for Draco",
   "main": "draco3d/index.js",
@@ -20,12 +20,12 @@
   "author": "Howard Yin",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/yindaheng98/draco.js/issues"
+    "url": "https://github.com/yindaheng98/draco3dgs.js/issues"
   },
-  "homepage": "https://github.com/yindaheng98/draco.js#readme",
+  "homepage": "https://github.com/yindaheng98/draco3dgs.js#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yindaheng98/draco.js.git"
+    "url": "git+https://github.com/yindaheng98/draco3dgs.js.git"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
