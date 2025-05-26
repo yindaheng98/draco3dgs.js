@@ -4,6 +4,11 @@ export interface DracoAttributes {
     NORMAL?: TypedArray;
     COLOR?: TypedArray;
     TEX_COORD?: TypedArray;
+    SCALE_3DGS?: TypedArray;
+    ROTATION_3DGS?: TypedArray;
+    OPACITY_3DGS?: TypedArray;
+    FEATURE_DC_3DGS?: TypedArray;
+    FEATURE_REST_3DGS?: TypedArray;
     GENERIC?: TypedArray;
 }
 
@@ -13,6 +18,11 @@ export interface DracoAttributesConstructor {
     NORMAL?: TypedArrayConstructor;
     COLOR?: TypedArrayConstructor;
     TEX_COORD?: TypedArrayConstructor;
+    SCALE_3DGS?: TypedArrayConstructor;
+    ROTATION_3DGS?: TypedArrayConstructor;
+    OPACITY_3DGS?: TypedArrayConstructor;
+    FEATURE_DC_3DGS?: TypedArrayConstructor;
+    FEATURE_REST_3DGS?: TypedArrayConstructor;
     GENERIC?: TypedArrayConstructor;
 }
 
@@ -27,6 +37,11 @@ export interface DracoAttributesInfo {
     NORMAL: DracoAttributeInfo;
     COLOR: DracoAttributeInfo;
     TEX_COORD: DracoAttributeInfo;
+    SCALE_3DGS: DracoAttributeInfo;
+    ROTATION_3DGS: DracoAttributeInfo;
+    OPACITY_3DGS: DracoAttributeInfo;
+    FEATURE_DC_3DGS: DracoAttributeInfo;
+    FEATURE_REST_3DGS: DracoAttributeInfo;
     GENERIC: DracoAttributeInfo;
 }
 
