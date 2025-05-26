@@ -1,8 +1,8 @@
 const fs = require('fs');
-const { attributes: attributeTypes } = require('./draco3d');
+const { dracoAttributesInfo } = require('./draco3d');
 const { assert } = require('console');
 
-async function writeply(filename, data) {
+async function writeply(filename, data, types) {
     const { attributes, indices, numPoints, numFaces } = data;
     const isMesh = numFaces > 0 && indices !== null;
 
@@ -12,31 +12,58 @@ async function writeply(filename, data) {
     header += `element vertex ${numPoints}\n`;
 
     // Add vertex properties
-    for (const [attrName, attrData] of Object.entries(attributes)) {
-        if (attrData === null) continue;
-        assert(attrData instanceof attributeTypes[attrName].type, `Wrong attribute type for ${attrName}`);
-        assert(attrData.length / numPoints === attributeTypes[attrName].stride, `Wrong attribute size for ${attrName}`);
+    for (const [attrName, attrType] of Object.entries(types)) {
+        if (!attributes[attrName]) continue;
+        const attrData = attributes[attrName];
+        assert(attrData instanceof attrType, `Wrong attribute type for ${attrName}`);
+        assert(attrData.length / numPoints === dracoAttributesInfo[attrName].stride, `Wrong attribute size for ${attrName}`);
+        let typeName = '';
+        switch (attrType) {
+            case Float32Array:
+                typeName = 'float';
+                break;
+            case Uint8Array:
+                typeName = 'uchar';
+                break;
+            case Uint16Array:
+                typeName = 'ushort';
+                break;
+            case Uint32Array:
+                typeName = 'uint';
+                break;
+            case Int8Array:
+                typeName = 'char';
+                break;
+            case Int16Array:
+                typeName = 'short';
+                break;
+            case Int32Array:
+                typeName = 'int';
+                break;
+            default:
+                throw new Error(`Unsupported attribute type: ${attrType}`);
+        }
         switch (attrName) {
             case 'POSITION':
                 assert(attrData instanceof Float32Array, 'Position attribute must be Float32Array');
-                header += 'property float x\n';
-                header += 'property float y\n';
-                header += 'property float z\n';
+                header += 'property ' + typeName + ' x\n';
+                header += 'property ' + typeName + ' y\n';
+                header += 'property ' + typeName + ' z\n';
                 break;
             case 'NORMAL':
                 assert(attrData instanceof Float32Array, 'Normal attribute must be Float32Array');
-                header += 'property float nx\n';
-                header += 'property float ny\n';
-                header += 'property float nz\n';
+                header += 'property ' + typeName + ' nx\n';
+                header += 'property ' + typeName + ' ny\n';
+                header += 'property ' + typeName + ' nz\n';
                 break;
             case 'COLOR':
                 assert(attrData instanceof Uint8Array, 'Color attribute must be Uint8Array');
-                header += 'property uchar red\n';
-                header += 'property uchar green\n';
-                header += 'property uchar blue\n';
+                header += 'property ' + typeName + ' red\n';
+                header += 'property ' + typeName + ' green\n';
+                header += 'property ' + typeName + ' blue\n';
                 break;
             default:
-                const numComponents = attributeTypes[attrName].stride;
+                const numComponents = dracoAttributesInfo[attrName].stride;
                 for (let i = 0; i < numComponents; i++) {
                     header += `property float ${attrName.toLowerCase()}_${i}\n`;
                 }
@@ -60,7 +87,7 @@ async function writeply(filename, data) {
         const vertex = [];
         for (const [attrName, attrData] of Object.entries(attributes)) {
             if (attrData === null) continue;
-            const numComponents = attributeTypes[attrName].stride;
+            const numComponents = dracoAttributesInfo[attrName].stride;
             for (let j = 0; j < numComponents; j++) {
                 vertex.push(attrData[i * numComponents + j]);
             }

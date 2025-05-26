@@ -18,7 +18,7 @@ async function main() {
         console.log("Available attributes:", Object.keys(decodedData.attributes));
 
         // Save decoded data to PLY file
-        await writeply('./bunny.ply', decodedData);
+        await writeply('./bunny.ply', decodedData, decoder.types());
         console.log("Decoded data saved as bunny.ply");
 
         // Encode the data back

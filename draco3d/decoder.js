@@ -16,6 +16,10 @@ class DracoDecoder {
         }
     }
 
+    types() {
+        return { ...this.#attributeTypes };
+    }
+
     async initialize() {
         if (!this.#decoderModule)
             this.#decoderModule = await createDecoderModule({});

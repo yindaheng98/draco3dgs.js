@@ -9,11 +9,13 @@ export interface DecodedGeometry {
 
 export class DracoDecoder {
     constructor(attributeTypes?: DracoAttributesConstructor);
+    types(): DracoAttributesConstructor;
     decode(buffer: ArrayBuffer): Promise<DecodedGeometry>;
 }
 
 export class DracoEncoder {
     constructor(attributeTypes?: DracoAttributesConstructor);
+    types(): DracoAttributesConstructor;
     encode(geometry: DecodedGeometry): Promise<ArrayBuffer>;
     SetEncodingMethod(method: string): void;
     SetAttributeQuantization(att_name: string, quantization_bits: number): void;

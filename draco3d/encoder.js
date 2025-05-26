@@ -16,6 +16,10 @@ class DracoEncoder {
         }
     }
 
+    types() {
+        return { ...this.#attributeTypes };
+    }
+
     async #initialize() {
         if (!this.#encoderModule)
             this.#encoderModule = await createEncoderModule({});
