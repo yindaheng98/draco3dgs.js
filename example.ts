@@ -18,7 +18,7 @@ async function main(): Promise<void> {
         console.log("Available attributes:", Object.keys(decodedData.attributes));
 
         // Save decoded data to PLY file
-        await writeply('./bunny.ply', decodedData, decoder.types());
+        await writeply('./bunny.ply', decodedData, decoder.GetArrtibutesType());
         console.log("Decoded data saved as bunny.ply");
 
         // Encode the data back
@@ -26,7 +26,7 @@ async function main(): Promise<void> {
         encoder.SetAttributeQuantization('POSITION', 10);
         encoder.SetSpeedOptions(5, 5);
         encoder.SetAttributeQuantization('COLOR', 8);
-        const colorType = decoder.types().COLOR;
+        const colorType = decoder.GetArrtibutesType().COLOR;
         if (!decodedData.attributes.COLOR && colorType && typeof colorType.from === 'function') {
             decodedData.attributes.COLOR = colorType.from(Array.from({ length: dracoAttributesInfo.COLOR.stride * decodedData.numPoints }, () => Math.floor(Math.random() * 255)));
         }

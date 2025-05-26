@@ -16,7 +16,7 @@ class DracoEncoder {
         }
     }
 
-    types() {
+    GetArrtibutesType() {
         return { ...this.#attributeTypes };
     }
 
