@@ -59,6 +59,21 @@ async function writeply(filename, data, types) {
                 header += 'property ' + typeName + ' green\n';
                 header += 'property ' + typeName + ' blue\n';
                 break;
+            case 'SCALE_3DGS':
+                for (let i = 0; i < dracoAttributesInfo[attrName].stride; i++) header += `property ${typeName} scale_${i}\n`;
+                break;
+            case 'ROTATION_3DGS':
+                for (let i = 0; i < dracoAttributesInfo[attrName].stride; i++) header += `property ${typeName} rot_${i}\n`;
+                break;
+            case 'OPACITY_3DGS':
+                header += `property ${typeName} opacity\n`;
+                break;
+            case 'FEATURE_DC_3DGS':
+                for (let i = 0; i < dracoAttributesInfo[attrName].stride; i++) header += `property ${typeName} f_dc_${i}\n`;
+                break;
+            case 'FEATURE_REST_3DGS':
+                for (let i = 0; i < dracoAttributesInfo[attrName].stride; i++) header += `property ${typeName} f_rest_${i}\n`;
+                break;
             default:
                 const numComponents = dracoAttributesInfo[attrName].stride;
                 for (let i = 0; i < numComponents; i++) {

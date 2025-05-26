@@ -5,7 +5,7 @@ const writeply = require('./writeply');
 async function main() {
     try {
         // Read the input file
-        const inputBuffer = await fs.promises.readFile('./bunny.drc');
+        const inputBuffer = await fs.promises.readFile('./flame_steak.drc');
         console.log("Input file size:", inputBuffer.byteLength, "bytes");
 
         // Decode the file
@@ -18,8 +18,8 @@ async function main() {
         console.log("Available attributes:", Object.keys(decodedData.attributes));
 
         // Save decoded data to PLY file
-        await writeply('./bunny.ply', decodedData, decoder.GetArrtibutesType());
-        console.log("Decoded data saved as bunny.ply");
+        await writeply('./flame_steak.ply', decodedData, decoder.GetArrtibutesType());
+        console.log("Decoded data saved as flame_steak.ply");
 
         // Encode the data back
         const encoder = new DracoEncoder();
@@ -35,8 +35,8 @@ async function main() {
         console.log("Encoded size:", encodedBuffer.byteLength, "bytes");
 
         // Write the encoded data to a file
-        await fs.promises.writeFile('./bunny.drc', Buffer.from(encodedBuffer));
-        console.log("Encoded file saved as bunny.drc");
+        await fs.promises.writeFile('./flame_steak.drc', Buffer.from(encodedBuffer));
+        console.log("Encoded file saved as flame_steak.drc");
 
     } catch (error) {
         console.error("Error:", error);
