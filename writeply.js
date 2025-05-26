@@ -45,19 +45,16 @@ async function writeply(filename, data, types) {
         }
         switch (attrName) {
             case 'POSITION':
-                assert(attrData instanceof Float32Array, 'Position attribute must be Float32Array');
                 header += 'property ' + typeName + ' x\n';
                 header += 'property ' + typeName + ' y\n';
                 header += 'property ' + typeName + ' z\n';
                 break;
             case 'NORMAL':
-                assert(attrData instanceof Float32Array, 'Normal attribute must be Float32Array');
                 header += 'property ' + typeName + ' nx\n';
                 header += 'property ' + typeName + ' ny\n';
                 header += 'property ' + typeName + ' nz\n';
                 break;
             case 'COLOR':
-                assert(attrData instanceof Uint8Array, 'Color attribute must be Uint8Array');
                 header += 'property ' + typeName + ' red\n';
                 header += 'property ' + typeName + ' green\n';
                 header += 'property ' + typeName + ' blue\n';
