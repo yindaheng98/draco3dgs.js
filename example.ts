@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { DracoEncoder, DracoDecoder, attributes } from './draco3d';
+import { DracoEncoder, DracoDecoder } from './draco3d';
 import writeply from './writeply';
 
 async function main(): Promise<void> {

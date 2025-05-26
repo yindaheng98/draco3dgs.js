@@ -1,15 +1,8 @@
-interface AttributeDefinition {
-    type: Float32ArrayConstructor | Int8ArrayConstructor | Int16ArrayConstructor | Int32ArrayConstructor | Uint8ArrayConstructor | Uint16ArrayConstructor | Uint32ArrayConstructor;
-    stride: number;
+type TypedArray = Float32Array | Int8Array | Int16Array | Int32Array | Uint8Array | Uint16Array | Uint32Array;
+export interface DracoAttributes {
+    POSITION: TypedArray | null;
+    NORMAL: TypedArray | null;
+    COLOR: TypedArray | null;
+    TEX_COORD: TypedArray | null;
+    GENERIC: TypedArray | null;
 }
-
-interface DracoAttributeDefinitions {
-    POSITION: AttributeDefinition;
-    NORMAL: AttributeDefinition;
-    COLOR: AttributeDefinition;
-    TEX_COORD: AttributeDefinition;
-    GENERIC: AttributeDefinition;
-}
-
-declare const attributes: DracoAttributeDefinitions;
-export = attributes;

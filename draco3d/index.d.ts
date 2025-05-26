@@ -1,10 +1,8 @@
-import attributes from './draco3d/attributes';
+import { DracoAttributes } from './draco3d/attributes';
 
 interface DecodedGeometry {
     numPoints: number;
-    attributes: {
-        [key: string]: Float32Array | Int8Array | Int16Array | Int32Array | Uint8Array | Uint16Array | Uint32Array | null;
-    };
+    attributes: DracoAttributes;
     numFaces: number;
     indices: Uint32Array | null;
 }
@@ -26,5 +24,6 @@ declare class DracoEncoder {
 export {
     DracoEncoder,
     DracoDecoder,
-    attributes
+    DracoAttributes,
+    DecodedGeometry,
 };
